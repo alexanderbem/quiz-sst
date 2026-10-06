@@ -1,0 +1,12 @@
+{
+  "name": "concurso-sst",
+  "version": "1.0.0",
+  "description": "Concurso en vivo de Seguridad y Salud en el Trabajo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
