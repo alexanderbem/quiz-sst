@@ -5,306 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a2a5e">
 <title>Panel de la instructora - Concurso SST</title>
-
 <style>
-:root{
-  --navy:#0a2a5e;
-  --navy2:#123c82;
-  --blue:#1f6feb;
-  --yellow:#ffc400;
-  --green:#1fa463;
-  --red:#d93a3a;
-  --ink:#0d1b36
-}
-
-*{
-  box-sizing:border-box
-}
-
-html,body{
-  margin:0;
-  min-height:100%
-}
-
-body{
-  font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
-  background:linear-gradient(180deg,var(--navy),var(--navy2)) fixed;
-  color:#fff;
-  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)
-}
-
-.wrap{
-  max-width:760px;
-  margin:0 auto;
-  padding:16px
-}
-
-h1{
-  margin:6px 0 14px;
-  font-size:1.6rem
-}
-
-.card{
-  background:#fff;
-  color:var(--ink);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.25)
-}
-
-input{
-  width:100%;
-  font-size:1.1rem;
-  padding:13px;
-  border-radius:12px;
-  border:2px solid #c5d6f5;
-  font-family:inherit
-}
-
-.btn{
-  font-size:1rem;
-  font-weight:700;
-  padding:14px 16px;
-  border:0;
-  border-radius:12px;
-  background:var(--blue);
-  color:#fff;
-  font-family:inherit;
-  cursor:pointer
-}
-
-.btn.y{
-  background:var(--yellow);
-  color:var(--ink)
-}
-
-.btn.r{
-  background:var(--red)
-}
-
-.btn:disabled{
-  opacity:.4;
-  cursor:default
-}
-
-.row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap
-}
-
-.row .btn{
-  flex:1;
-  min-width:130px
-}
-
-.hidden{
-  display:none!important
-}
-
-.stats{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:12px
-}
-
-.chip{
-  background:var(--blue);
-  color:#fff;
-  padding:6px 12px;
-  border-radius:999px;
-  font-weight:700;
-  font-size:.9rem
-}
-
-.big{
-  font-size:2.4rem;
-  font-weight:800;
-  color:var(--blue)
-}
-
-.topic{
-  color:#4a5f86
-}
-
-.q{
-  font-size:1.2rem;
-  font-weight:700;
-  margin:4px 0 10px
-}
-
-.o{
-  padding:8px 10px;
-  border-radius:10px;
-  background:#eef4ff;
-  margin-bottom:6px
-}
-
-.o.c{
-  background:#d9f5e6;
-  font-weight:800
-}
-
-.err{
-  color:var(--red);
-  font-weight:700;
-  min-height:1.2em;
-  margin-top:8px
-}
-
-table{
-  width:100%;
-  border-collapse:collapse
-}
-
-th{
-  font-size:.8rem;
-  color:#4a5f86;
-  text-align:left;
-  padding:4px 8px
-}
-
-td{
-  padding:8px;
-  border-top:1px solid #e1e9f7
-}
-
-td.n,th.n{
-  text-align:right
-}
-
-.scroll{
-  max-height:420px;
-  overflow-y:auto
-}
-
-.back{
-  display:inline-block;
-  margin:0 0 14px;
-  color:#b9d0f5;
-  text-decoration:none;
-  font-weight:700
-}
-
-.back:hover{
-  text-decoration:underline;
-  color:#fff
-}
+:root{--navy:#0a2a5e;--navy2:#123c82;--blue:#1f6feb;--yellow:#ffc400;--green:#1fa463;--red:#d93a3a;--ink:#0d1b36}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;background:linear-gradient(180deg,var(--navy),var(--navy2)) fixed;color:#fff;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+h1{margin:6px 0 14px;font-size:1.6rem}
+.card{background:#fff;color:var(--ink);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+input{width:100%;font-size:1.1rem;padding:13px;border-radius:12px;border:2px solid #c5d6f5;font-family:inherit}
+.btn{font-size:1rem;font-weight:700;padding:14px 16px;border:0;border-radius:12px;background:var(--blue);color:#fff;font-family:inherit;cursor:pointer}
+.btn.y{background:var(--yellow);color:var(--ink)}
+.btn.r{background:var(--red)}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:130px}
+.hidden{display:none!important}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.chip{background:var(--blue);color:#fff;padding:6px 12px;border-radius:999px;font-weight:700;font-size:.9rem}
+.big{font-size:2.4rem;font-weight:800;color:var(--blue)}
+.topic{color:#4a5f86}
+.q{font-size:1.2rem;font-weight:700;margin:4px 0 10px}
+.o{padding:8px 10px;border-radius:10px;background:#eef4ff;margin-bottom:6px}
+.o.c{background:#d9f5e6;font-weight:800}
+.err{color:var(--red);font-weight:700;min-height:1.2em;margin-top:8px}
+table{width:100%;border-collapse:collapse}
+th{font-size:.8rem;color:#4a5f86;text-align:left;padding:4px 8px}
+td{padding:8px;border-top:1px solid #e1e9f7}
+td.n,th.n{text-align:right}
+.scroll{max-height:420px;overflow-y:auto}
 </style>
 </head>
-
 <body>
-
 <div class="wrap">
-
-  <a class="back" href="/">← Volver al concurso</a>
-
   <h1>Panel de la instructora · Concurso SST</h1>
 
   <div class="card" id="login">
-
     <p>Contraseña de la instructora</p>
-
-    <input
-      id="pass"
-      type="password"
-      placeholder="Contraseña"
-      autocomplete="off"
-    >
-
+    <input id="pass" type="password" placeholder="Contraseña" autocomplete="off">
     <div class="row" style="margin-top:12px">
-
-      <button class="btn" id="enter">
-        Entrar
-      </button>
-
+      <button class="btn" id="enter">Entrar</button>
     </div>
-
     <div class="err" id="lerr"></div>
-
   </div>
 
   <div id="panel" class="hidden">
-
     <div class="card">
-
       <div class="stats">
-
         <span class="chip" id="phase"></span>
-
         <span class="chip" id="count"></span>
-
         <span class="chip" id="answered"></span>
-
       </div>
 
       <div class="row">
-
-        <button class="btn y" id="start">
-          Iniciar competencia
-        </button>
-
-        <button class="btn" id="next">
-          Siguiente pregunta
-        </button>
-
-        <button class="btn r" id="reset">
-          Reiniciar
-        </button>
-
+        <button class="btn y" id="start">Iniciar competencia</button>
+        <button class="btn" id="next">Siguiente pregunta</button>
+        <button class="btn r" id="reset">Reiniciar</button>
       </div>
-
     </div>
 
     <div class="card hidden" id="qcard">
-
       <div class="topic" id="topic"></div>
-
       <div class="big" id="secs"></div>
-
       <div class="q" id="qtext"></div>
-
       <div id="opts"></div>
-
     </div>
 
     <div class="card">
-
-      <h3 style="margin-top:0">
-        Tabla de posiciones
-      </h3>
+      <h3 style="margin-top:0">Tabla de posiciones</h3>
 
       <div class="scroll">
-
         <table>
-
           <thead>
-
             <tr>
               <th>Puesto</th>
               <th>Usuario</th>
               <th class="n">Puntaje</th>
               <th class="n">Tiempo</th>
             </tr>
-
           </thead>
 
           <tbody id="lb"></tbody>
-
         </table>
-
       </div>
-
     </div>
-
   </div>
-
 </div>
 
 <script>
-
 const $ = id => document.getElementById(id);
 
 const L = ['A', 'B', 'C', 'D'];
@@ -321,124 +109,127 @@ let deadline = 0;
 let poll = null;
 let phase = '';
 
-const esc = s =>
-  String(s).replace(
-    /[&<>"']/g,
-    c => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;',
-      "'":'&#39;'
-    }[c])
-  );
+const esc = s => String(s).replace(/[&<>\"']/g, c => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '\"': '&quot;',
+  "'": '&#39;'
+}[c]));
 
 async function call(path, method) {
+  const r = await fetch(path, {
+    method: method || 'GET',
+    headers: {
+      'x-admin-pass': pass
+    },
+    cache: 'no-store'
+  });
 
-  const r = await fetch(
-    path,
-    {
-      method: method || 'GET',
-      headers: {
-        'x-admin-pass': pass
-      },
-      cache: 'no-store'
-    }
-  );
-
-  if (r.status === 401) {
-    throw new Error('auth');
-  }
+  if (r.status === 401) throw new Error('auth');
 
   return r.json();
 }
 
 async function enter() {
-
   pass = $('pass').value || pass;
 
   try {
+    render(await call('/api/state?admin=1'));
 
-    render(
-      await call('/api/state?admin=1')
-    );
-
-    sessionStorage.setItem(
-      'sst_admin',
-      pass
-    );
+    sessionStorage.setItem('sst_admin', pass);
 
     $('login').classList.add('hidden');
     $('panel').classList.remove('hidden');
 
     clearInterval(poll);
-
-    poll = setInterval(
-      refresh,
-      1000
-    );
+    poll = setInterval(refresh, 1000);
 
   } catch {
-
-    $('lerr').textContent =
-      'Contraseña incorrecta.';
-
+    $('lerr').textContent = 'Contraseña incorrecta.';
   }
 }
 
 async function refresh() {
-
   try {
-
-    render(
-      await call('/api/state?admin=1')
-    );
-
+    render(await call('/api/state?admin=1'));
   } catch {}
-
 }
 
 async function act(a) {
-
   try {
-
-    render(
-      await call(
-        '/api/admin/' + a,
-        'POST'
-      )
-    );
-
+    render(await call('/api/admin/' + a, 'POST'));
   } catch {}
-
 }
 
 $('enter').onclick = enter;
 
-$('pass').addEventListener(
-  'keydown',
-  e => {
-    if (e.key === 'Enter') enter();
+$('pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') enter();
+});
+
+$('start').onclick = () => act('start');
+
+$('next').onclick = () => act('next');
+
+
+/* =====================================================
+   REINICIAR CON SEGUNDA CONTRASEÑA
+   Contraseña de reinicio: 1234
+   ===================================================== */
+
+$('reset').onclick = async () => {
+
+  if (!confirm(
+    '¿Reiniciar?\n\nSe borrarán todos los participantes y resultados.'
+  )) {
+    return;
   }
-);
 
-$('start').onclick = () =>
-  act('start');
+  const resetPass = prompt(
+    '🔐 Ingresa la contraseña para reiniciar:'
+  );
 
-$('next').onclick = () =>
-  act('next');
-
-$('reset').onclick = () => {
-
-  if (
-    confirm(
-      '¿Reiniciar? Se borrarán todos los participantes y resultados.'
-    )
-  ) {
-    act('reset');
+  if (resetPass === null) {
+    return;
   }
 
+  if (resetPass === '') {
+    alert('Debes ingresar la contraseña.');
+    return;
+  }
+
+  try {
+
+    const r = await fetch('/api/admin/reset', {
+      method: 'POST',
+
+      headers: {
+        'x-admin-pass': pass,
+        'x-reset-pass': resetPass
+      },
+
+      cache: 'no-store'
+    });
+
+    const data = await r.json();
+
+    if (r.status === 401) {
+      alert(data.error || 'Contraseña de reinicio incorrecta.');
+      return;
+    }
+
+    render(data);
+
+    alert('✅ Concurso reiniciado correctamente.');
+
+  } catch {
+
+    alert('No se pudo reiniciar el concurso.');
+
+  }
 };
+
 
 function render(s) {
 
@@ -446,24 +237,16 @@ function render(s) {
 
   $('phase').textContent =
     PH[s.phase] +
-    (
-      s.q >= 0 &&
-      s.phase !== 'finished'
-        ? ' · ' +
-          (s.q + 1) +
-          '/' +
-          s.total
-        : ''
-    );
+    (s.q >= 0 && s.phase !== 'finished'
+      ? ' · ' + (s.q + 1) + '/' + s.total
+      : '');
 
   $('count').textContent =
-    s.playerCount +
-    ' participantes';
+    s.playerCount + ' participantes';
 
   $('answered').textContent =
     s.question
-      ? s.answeredCount +
-        ' respondieron'
+      ? s.answeredCount + ' respondieron'
       : '';
 
   $('answered').classList.toggle(
@@ -475,10 +258,8 @@ function render(s) {
     s.phase !== 'lobby';
 
   $('next').disabled =
-    !(
-      s.phase === 'question' ||
-      s.phase === 'reveal'
-    );
+    !(s.phase === 'question' ||
+      s.phase === 'reveal');
 
   $('next').textContent =
     s.q + 1 >= s.total
@@ -504,70 +285,57 @@ function render(s) {
 
     $('opts').innerHTML =
       s.question.options
-        .map(
-          (o, i) =>
-            `<div class="o ${
-              i === s.correct ? 'c' : ''
-            }">
-              <b>${L[i]})</b>
-              ${esc(o)}
-              ${
-                i === s.correct
-                  ? ' ✔'
-                  : ''
-              }
-            </div>`
+        .map((o, i) =>
+          `<div class="o ${i === s.correct ? 'c' : ''}">
+            <b>${L[i]})</b>
+            ${esc(o)}
+            ${i === s.correct ? ' ✔' : ''}
+          </div>`
         )
         .join('');
 
     if (s.phase !== 'question') {
-      $('secs').textContent =
-        '0 s';
+      $('secs').textContent = '0 s';
     }
   }
 
   $('lb').innerHTML =
     s.leaderboard.length
+
       ? s.leaderboard
-          .map(
-            p =>
-              `<tr>
-                <td>${p.rank}</td>
-                <td>${esc(p.name)}</td>
-                <td class="n">${p.score}</td>
-                <td class="n">${p.time.toFixed(1)} s</td>
-              </tr>`
+          .map(p =>
+            `<tr>
+              <td>${p.rank}</td>
+              <td>${esc(p.name)}</td>
+              <td class="n">${p.score}</td>
+              <td class="n">${p.time.toFixed(1)} s</td>
+            </tr>`
           )
           .join('')
+
       : '<tr><td colspan="4">Aún no hay participantes.</td></tr>';
 }
 
-setInterval(
-  () => {
 
-    if (
-      phase === 'question'
-    ) {
+setInterval(() => {
 
-      $('secs').textContent =
-        Math.ceil(
-          Math.max(
-            0,
-            deadline -
-            performance.now()
-          ) / 1000
-        ) +
-        ' s';
+  if (phase === 'question') {
 
-    }
+    $('secs').textContent =
+      Math.ceil(
+        Math.max(
+          0,
+          deadline - performance.now()
+        ) / 1000
+      ) + ' s';
 
-  },
-  200
-);
+  }
+
+}, 200);
+
 
 if (pass) enter();
 
 </script>
-
 </body>
 </html>
