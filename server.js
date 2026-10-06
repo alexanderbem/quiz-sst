@@ -1,72 +1,26 @@
-  { t: 'Tipos de IPERC', q: '¿Cuál es un tipo de IPERC utilizado para identificar peligros antes de realizar una actividad?', o: ['IPERC continuo', 'IPERC de línea base', 'IPERC inicial', 'IPERC documental'], c: 1 },
-  { t: 'Seguridad y Salud en el Trabajo', q: '¿Cuál es el principal objetivo de la SST?', o: ['Aumentar las horas de trabajo', 'Prevenir accidentes y proteger la salud de los trabajadores', 'Reducir las capacitaciones', 'Eliminar los procedimientos de seguridad'], c: 1 },
-  { t: 'Colores de seguridad', q: '¿Qué color se utiliza principalmente para advertir sobre un peligro o riesgo?', o: ['Amarillo', 'Verde', 'Azul', 'Blanco'], c: 0 },
-  { t: 'Tipos de peligros', q: '¿Cuál de los siguientes es un peligro físico?', o: ['Ruido', 'Virus', 'Sustancia tóxica', 'Postura inadecuada'], c: 0 },
-  { t: 'Tipos de peligros', q: '¿Cuál de los siguientes corresponde a un peligro biológico?', o: ['Ruido', 'Virus y bacterias', 'Electricidad', 'Temperatura elevada'], c: 1 },
-  { t: 'Cilindros de gases', q: '¿Qué debe hacerse antes de utilizar un cilindro de gas?', o: ['Golpearlo para comprobar su contenido', 'Verificar su identificación, estado y condiciones de seguridad', 'Retirar sus etiquetas', 'Colocarlo horizontalmente siempre'], c: 1 },
-  { t: 'Tipos de residuos', q: '¿Cuál es una característica de los residuos peligrosos?', o: ['No presentan ningún riesgo', 'Pueden presentar características como toxicidad o inflamabilidad', 'Siempre son residuos orgánicos', 'Solo contienen papel'], c: 1 },
-  { t: 'Los 9 principios de SST', q: '¿Qué buscan principalmente los principios de Seguridad y Salud en el Trabajo?', o: ['Promover la prevención y protección de los trabajadores', 'Aumentar los riesgos laborales', 'Eliminar los controles de seguridad', 'Reducir el uso de señalización'], c: 0 },
-  { t: 'SST', q: '¿Cuál de las siguientes acciones ayuda a prevenir accidentes laborales?', o: ['Ignorar los peligros', 'No utilizar EPP', 'Identificar peligros, evaluar riesgos y aplicar controles', 'Trabajar sin capacitación'], c: 2 },
-];
+// Concurso SST - servidor sin dependencias externas (solo Node.js 18+)
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
 
-// ---------- Estado compartido (en memoria) ----------
-function newGame() {
-  return {
-    epoch: crypto.randomBytes(4).toString('hex'),
-    phase: 'lobby', // lobby | question | reveal | finished
-    q: -1,
-    qEnd: 0,
-    revealEnd: 0,
-    players: new Map(), // token -> {name, score, time, answers: Map(qIndex -> {choice, ok})}
-    names: new Set(),   // nombres en minúscula
-  };
-}
-let game = newGame();
+const PORT = process.env.PORT || 3000;
+const JOIN_CODE = process.env.JOIN_CODE || '1234';       // código de ingreso de participantes
+const ADMIN_PASS = process.env.ADMIN_PASS || 'profe1234'; // contraseña del panel de la instructora
+const QUESTION_MS = 30000; // 30 s por pregunta
+const REVEAL_MS = 4000;    // pausa de 4 s mostrando la respuesta correcta
+const POINTS = 100;        // puntos por respuesta correcta
 
-function nextQuestion() {
-  if (game.q + 1 >= QUESTIONS.length) { game.phase = 'finished'; return; }
-  game.q++;
-  game.phase = 'question';
-  game.qEnd = Date.now() + QUESTION_MS;
-}
-
-function tick() {
-  const now = Date.now();
-  if (game.phase === 'question' && now >= game.qEnd) {
-    game.phase = 'reveal';
-    game.revealEnd = now + REVEAL_MS;
-  }
-  if (game.phase === 'reveal' && now >= game.revealEnd) nextQuestion();
-}
-setInterval(tick, 250);
-
-function leaderboard() {
-  const list = [...game.players.values()].map(p => ({ name: p.name, score: p.score, time: Math.round(p.time * 10) / 10 }));
-  list.sort((a, b) => b.score - a.score || a.time - b.time || a.name.localeCompare(b.name));
-  list.forEach((p, i) => (p.rank = i + 1));
-  return list;
-}
-
-function buildState(token, isAdmin) {
-  tick();
-  const now = Date.now();
-  const lb = leaderboard();
-  const s = {
-    epoch: game.epoch,
-    phase: game.phase,
-    q: game.q,
-    total: QUESTIONS.length,
-    questionMs: QUESTION_MS,
-    remainingMs: game.phase === 'question' ? Math.max(0, game.qEnd - now) : 0,
-    playerCount: game.players.size,
-    leaderboard: lb,
-  };
-  if (game.phase === 'question' || game.phase === 'reveal') {
-    const Q = QUESTIONS[game.q];
-    s.question = { topic: Q.t, text: Q.q, options: Q.o };
-    let answered = 0;
-    game.players.forEach(p => { if (p.answers.has(game.q)) answered++; });
-    s.answeredCount = answered;
+// c = índice de la respuesta correcta (0=A, 1=B, 2=C, 3=D)
+const QUESTIONS = [
+  { t: 'Rombo NFPA 704', q: '¿Qué representa el color rojo en el rombo NFPA 704?', o: ['Riesgo especial', 'Inflamabilidad', 'Reactividad', 'Riesgo para la salud'], c: 1 },
+  { t: 'Rombo NFPA 704', q: '¿Qué número indica un peligro más severo en la escala del rombo NFPA 704?', o: ['0', '1', '3', '4'], c: 3 },
+  { t: 'Las 5S', q: '¿Cuál de las siguientes pertenece a la metodología 5S?', o: ['Seguridad', 'Seiri', 'Supervisión', 'Señalización'], c: 1 },
+  { t: 'Las 5S', q: '¿Cuál es el objetivo principal de aplicar las 5S en el lugar de trabajo?', o: ['Aumentar los accidentes', 'Mantener orden, limpieza y organización', 'Eliminar los equipos de protección', 'Aumentar el tiempo de trabajo'], c: 1 },
+  { t: 'ATS', q: '¿Qué significa ATS en Seguridad y Salud en el Trabajo?', o: ['Análisis de Trabajo Seguro', 'Área Técnica de Seguridad', 'Actividad de Trabajo Supervisado', 'Análisis Técnico de Servicios'], c: 0 },
+  { t: 'ATS', q: '¿Cuál es uno de los objetivos principales de un ATS?', o: ['Identificar peligros antes de realizar una tarea', 'Reemplazar todos los EPP', 'Aumentar la velocidad del trabajo', 'Eliminar las capacitaciones'], c: 0 },
+  { t: 'Señales y colores', q: '¿Qué color se utiliza generalmente para indicar prohibición o peligro?', o: ['Verde', 'Azul', 'Rojo', 'Blanco'], c: 2 },
+      s.answeredCount = answered;
     if (game.phase === 'reveal' || isAdmin) s.correct = Q.c;
   }
   const p = token && game.players.get(token);
