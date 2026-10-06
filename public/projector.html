@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1"
+>
+
+<meta
+  name="theme-color"
+  content="#061a3a"
+>
+
+<title>Proyector · Concurso SST</title>
+
+<style>
+
+:root{
+  --bg:#061a3a;
+  --blue:#1687ff;
+  --cyan:#28c7ff;
+  --white:#ffffff;
+  --muted:#a9c7ed;
+  --green:#20c978;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    system-ui,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #123d80,
+      var(--bg) 65%
+    );
+
+  color:var(--white);
+
+  min-height:100vh;
+
+  padding:24px;
+}
+
+.container{
+
+  max-width:1200px;
+
+  margin:auto;
+
+}
+
+header{
+
+  display:flex;
+
+  justify-content:
+    space-between;
+
+  align-items:center;
+
+  gap:20px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:20px;
+
+}
+
+.brand{
+
+  font-size:1.4rem;
+
+  font-weight:900;
+
+}
+
+.status{
+
+  background:
+    rgba(255,255,255,.1);
+
+  border:
+    1px solid
+    rgba(255,255,255,.2);
+
+  padding:10px 16px;
+
+  border-radius:999px;
+
+  font-weight:800;
+
+}
+
+.main{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 300px;
+
+  gap:20px;
+
+}
+
+.card{
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  border-radius:24px;
+
+  padding:28px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.25);
+
+}
+
+.topic{
+
+  color:
+    var(--cyan);
+
+  font-weight:900;
+
+  font-size:1.1rem;
+
+  margin-bottom:10px;
+
+}
+
+.number{
+
+  color:
+    var(--muted);
+
+  font-weight:700;
+
+  margin-bottom:12px;
+
+}
+
+.timer{
+
+  font-size:4rem;
+
+  font-weight:1000;
+
+  color:
+    var(--cyan);
+
+  line-height:1;
+
+  margin-bottom:22px;
+
+}
+
+.question{
+
+  font-size:2rem;
+
+  font-weight:900;
+
+  line-height:1.2;
+
+  margin-bottom:25px;
+
+}
+
+.options{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:14px;
+
+}
+
+.option{
+
+  background:
+    rgba(255,255,255,.09);
+
+  border:
+    2px solid
+    rgba(255,255,255,.12);
+
+  border-radius:16px;
+
+  padding:18px;
+
+  font-size:1.2rem;
+
+  font-weight:800;
+
+}
+
+.letter{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  width:38px;
+
+  height:38px;
+
+  border-radius:50%;
+
+  background:
+    var(--blue);
+
+  margin-right:10px;
+
+}
+
+.side h2{
+
+  margin-top:0;
+
+}
+
+.ranking{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+
+}
+
+.player{
+
+  display:grid;
+
+  grid-template-columns:
+    42px 1fr auto;
+
+  gap:8px;
+
+  align-items:center;
+
+  background:
+    rgba(255,255,255,.07);
+
+  padding:10px;
+
+  border-radius:12px;
+
+}
+
+.rank{
+
+  font-weight:1000;
+
+  font-size:1.1rem;
+
+}
+
+.name{
+
+  font-weight:800;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
+  white-space:nowrap;
+
+}
+
+.points{
+
+  font-weight:900;
+
+}
+
+.wait{
+
+  text-align:center;
+
+  padding:60px 20px;
+
+}
+
+.wait h1{
+
+  font-size:3rem;
+
+  margin:0 0 12px;
+
+}
+
+.wait p{
+
+  color:var(--muted);
+
+  font-size:1.2rem;
+
+}
+
+.finished{
+
+  text-align:center;
+
+}
+
+.finished h1{
+
+  font-size:3rem;
+
+}
+
+@media(max-width:850px){
+
+  body{
+    padding:14px;
+  }
+
+  .main{
+    grid-template-columns:1fr;
+  }
+
+  .question{
+    font-size:1.5rem;
+  }
+
+  .timer{
+    font-size:3rem;
+  }
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+  <div class="brand">
+    🛡️ CONCURSO SST
+  </div>
+
+  <div class="status" id="status">
+    Conectando...
+  </div>
+
+</header>
+
+
+<div id="content"></div>
+
+</div>
+
+
+<script>
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+const letters =
+  ['A','B','C','D'];
+
+
+const PH = {
+
+  lobby:
+    'Esperando inicio',
+
+  question:
+    'Pregunta en curso',
+
+  reveal:
+    'Tiempo terminado',
+
+  finished:
+    'Competencia terminada'
+
+};
+
+
+let deadline = 0;
+
+let phase = '';
+
+
+async function getState(){
+
+  try{
+
+    const r =
+      await fetch(
+        '/api/state?projector=1',
+        {
+          cache:'no-store'
+        }
+      );
+
+    return await r.json();
+
+  }catch(e){
+
+    return null;
+
+  }
+
+}
+
+
+function esc(s){
+
+  return String(s)
+    .replace(
+      /[&<>"']/g,
+      c =>
+        ({
+          '&':'&amp;',
+          '<':'&lt;',
+          '>':'&gt;',
+          '"':'&quot;',
+          "'":'&#39;'
+        }[c])
+    );
+
+}
+
+
+function render(s){
+
+  if(!s){
+
+    $('status').textContent =
+      'Sin conexión';
+
+    return;
+
+  }
+
+
+  phase =
+    s.phase;
+
+  $('status').textContent =
+    PH[s.phase] || s.phase;
+
+
+  if(
+    s.phase === 'lobby'
+  ){
+
+    $('content').innerHTML = `
+
+      <div class="card wait">
+
+        <h1>
+          🛡️ Concurso SST
+        </h1>
+
+        <p>
+          La competencia comenzará en breve.
+        </p>
+
+        <p>
+          Participantes conectados:
+          <strong>
+            ${s.playerCount}
+          </strong>
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if(
+    s.phase === 'finished'
+  ){
+
+    $('content').innerHTML = `
+
+      <div class="card finished">
+
+        <h1>
+          🏆 Competencia terminada
+        </h1>
+
+        <p>
+          Resultado final
+        </p>
+
+        ${rankingHTML(s.leaderboard)}
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if(!s.question){
+
+    return;
+
+  }
+
+
+  deadline =
+    performance.now() +
+    s.remainingMs;
+
+
+  $('content').innerHTML = `
+
+    <div class="main">
+
+      <div class="card">
+
+        <div class="topic">
+          ${esc(s.question.topic)}
+        </div>
+
+        <div class="number">
+          Pregunta ${s.q + 1} de ${s.total}
+        </div>
+
+        <div
+          class="timer"
+          id="timer"
+        >
+          ${s.phase === 'question'
+            ? Math.ceil(s.remainingMs / 1000) + ' s'
+            : '0 s'}
+        </div>
+
+        <div class="question">
+          ${esc(s.question.text)}
+        </div>
+
+        <div class="options">
+
+          ${s.question.options
+            .map(
+              (o,i) => `
+
+                <div class="option">
+
+                  <span class="letter">
+                    ${letters[i]}
+                  </span>
+
+                  ${esc(o)}
+
+                </div>
+
+              `
+            )
+            .join('')}
+
+        </div>
+
+      </div>
+
+
+      <div class="card side">
+
+        <h2>
+          🏆 Ranking
+        </h2>
+
+        ${rankingHTML(
+          s.leaderboard
+        )}
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function rankingHTML(list){
+
+  if(!list || !list.length){
+
+    return `
+      <p>
+        Aún no hay participantes.
+      </p>
+    `;
+
+  }
+
+
+  return `
+
+    <div class="ranking">
+
+      ${list
+        .slice(0,10)
+        .map(
+          p => `
+
+            <div class="player">
+
+              <div class="rank">
+
+                ${
+                  p.rank === 1
+                    ? '🥇'
+                    : p.rank === 2
+                      ? '🥈'
+                      : p.rank === 3
+                        ? '🥉'
+                        : p.rank
+                }
+
+              </div>
+
+              <div class="name">
+                ${esc(p.name)}
+              </div>
+
+              <div class="points">
+                ${p.score} pts
+              </div>
+
+            </div>
+
+          `
+        )
+        .join('')}
+
+    </div>
+
+  `;
+
+}
+
+
+setInterval(
+  async () => {
+
+    const s =
+      await getState();
+
+    render(s);
+
+  },
+  1000
+);
+
+
+setInterval(
+  () => {
+
+    if(
+      phase === 'question'
+    ){
+
+      const timer =
+        document.getElementById(
+          'timer'
+        );
+
+      if(timer){
+
+        const seconds =
+          Math.ceil(
+            Math.max(
+              0,
+              deadline -
+              performance.now()
+            ) / 1000
+          );
+
+        timer.textContent =
+          seconds + ' s';
+
+      }
+
+    }
+
+  },
+  200
+);
+
+
+getState()
+  .then(render);
+
+</script>
+
+</body>
+</html>
