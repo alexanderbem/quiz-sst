@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -21,6 +22,8 @@ input:focus{border-color:var(--blue)}
 .btn{width:100%;margin-top:16px;font-size:1.1rem;font-weight:700;padding:15px;border:0;border-radius:12px;background:var(--blue);color:#fff;font-family:inherit;cursor:pointer}
 .btn:active{transform:scale(.98)}
 .err{color:var(--red);font-weight:700;margin-top:10px;min-height:1.2em}
+.admin-access{display:block;text-align:center;margin:14px 0 0;color:#b9d0f5;text-decoration:none;font-weight:700;font-size:.95rem}
+.admin-access:hover{text-decoration:underline;color:#fff}
 .hidden{display:none!important}
 .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:700}
 .chip{background:rgba(255,255,255,.14);padding:6px 12px;border-radius:999px;font-size:.9rem}
@@ -35,8 +38,10 @@ input:focus{border-color:var(--blue)}
 .opt b{flex:none;width:38px;height:38px;border-radius:10px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:1.1rem}
 .opt.sel{border-color:var(--yellow);background:#fff8dc}
 .opt.sel b{background:var(--yellow);color:var(--ink)}
-.opt.ok{background:#d9f5e6;border-color:var(--green)}.opt.ok b{background:var(--green)}
-.opt.bad{background:#fde1e1;border-color:var(--red)}.opt.bad b{background:var(--red)}
+.opt.ok{background:#d9f5e6;border-color:var(--green)}
+.opt.ok b{background:var(--green)}
+.opt.bad{background:#fde1e1;border-color:var(--red)}
+.opt.bad b{background:var(--red)}
 .opt:disabled{cursor:default}
 .opt.dim{opacity:.55}
 .msg{text-align:center;padding:26px 10px}
@@ -57,8 +62,13 @@ tr.mine td{background:rgba(255,196,0,.18);font-weight:800}
 </head>
 <body>
 <div class="wrap">
+
   <div class="hat">
-    <svg viewBox="0 0 32 32" fill="none"><path d="M5 22a11 11 0 0 1 22 0z" fill="#ffc400"/><rect x="3" y="22" width="26" height="4" rx="2" fill="#ffc400"/><rect x="14" y="8" width="4" height="9" fill="#e0a800"/></svg>
+    <svg viewBox="0 0 32 32" fill="none">
+      <path d="M5 22a11 11 0 0 1 22 0z" fill="#ffc400"/>
+      <rect x="3" y="22" width="26" height="4" rx="2" fill="#ffc400"/>
+      <rect x="14" y="8" width="4" height="9" fill="#e0a800"/>
+    </svg>
     Concurso SST
   </div>
 
@@ -66,19 +76,30 @@ tr.mine td{background:rgba(255,196,0,.18);font-weight:800}
   <section id="login">
     <h1>¡A competir!</h1>
     <p class="sub">Responde rápido y bien: el puntaje manda y el tiempo desempata.</p>
+
     <div class="card">
       <label for="code">Código de ingreso</label>
       <input id="code" inputmode="numeric" autocomplete="off" placeholder="Código">
+
       <label for="name">Tu nombre de usuario</label>
       <input id="name" maxlength="20" autocomplete="off" placeholder="Ej. Alex_SST">
+
       <button class="btn" id="join">Entrar al concurso</button>
+
       <div class="err" id="err"></div>
+
+      <!-- ACCESO DE INSTRUCTORA -->
+      <a class="admin-access" href="/admin.html">⚙️ Acceso de instructora</a>
     </div>
   </section>
 
   <!-- Juego -->
   <section id="game" class="hidden">
-    <div class="bar"><span class="chip" id="who"></span><span class="chip" id="prog"></span></div>
+
+    <div class="bar">
+      <span class="chip" id="who"></span>
+      <span class="chip" id="prog"></span>
+    </div>
 
     <div id="lobby" class="card msg hidden">
       <h2>Ya estás dentro</h2>
@@ -87,8 +108,15 @@ tr.mine td{background:rgba(255,196,0,.18);font-weight:800}
     </div>
 
     <div id="play" class="hidden">
-      <div class="bar"><span class="topic" id="topic"></span><span class="secs" id="secs">30</span></div>
-      <div class="timer" id="timer"><i></i></div>
+      <div class="bar">
+        <span class="topic" id="topic"></span>
+        <span class="secs" id="secs">30</span>
+      </div>
+
+      <div class="timer" id="timer">
+        <i></i>
+      </div>
+
       <p class="qtext" id="qtext"></p>
       <div class="opts" id="opts"></div>
       <div class="result" id="result"></div>
@@ -100,143 +128,373 @@ tr.mine td{background:rgba(255,196,0,.18);font-weight:800}
     </div>
 
     <div class="me hidden" id="meBox">
-      <div><b id="mRank">-</b><span>Puesto</span></div>
-      <div><b id="mScore">0</b><span>Puntaje</span></div>
-      <div><b id="mTime">0.0</b><span>Tiempo (s)</span></div>
+      <div>
+        <b id="mRank">-</b>
+        <span>Puesto</span>
+      </div>
+
+      <div>
+        <b id="mScore">0</b>
+        <span>Puntaje</span>
+      </div>
+
+      <div>
+        <b id="mTime">0.0</b>
+        <span>Tiempo (s)</span>
+      </div>
     </div>
 
     <div class="board">
       <h3>Tabla de posiciones</h3>
+
       <div class="scroll">
         <table>
-          <thead><tr><th>Puesto</th><th>Usuario</th><th class="n">Puntaje</th><th class="n">Tiempo</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Puesto</th>
+              <th>Usuario</th>
+              <th class="n">Puntaje</th>
+              <th class="n">Tiempo</th>
+            </tr>
+          </thead>
+
           <tbody id="lb"></tbody>
         </table>
       </div>
     </div>
+
   </section>
 </div>
 
 <script>
 const $ = id => document.getElementById(id);
 const L = ['A', 'B', 'C', 'D'];
+
 let token = localStorage.getItem('sst_token');
 let myName = localStorage.getItem('sst_name') || '';
-let epoch = null, deadline = 0, qMs = 30000, shownKey = '', chosen = null, poll = null, answering = false;
 
-function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-function show(id, on) { $(id).classList.toggle('hidden', !on); }
+let epoch = null,
+    deadline = 0,
+    qMs = 30000,
+    shownKey = '',
+    chosen = null,
+    poll = null,
+    answering = false;
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[c])
+  );
+}
+
+function show(id, on) {
+  $(id).classList.toggle('hidden', !on);
+}
 
 function logout(msg) {
-  localStorage.removeItem('sst_token'); localStorage.removeItem('sst_name');
-  token = null; shownKey = ''; clearInterval(poll); poll = null;
-  show('game', false); show('login', true);
+  localStorage.removeItem('sst_token');
+  localStorage.removeItem('sst_name');
+
+  token = null;
+  shownKey = '';
+
+  clearInterval(poll);
+  poll = null;
+
+  show('game', false);
+  show('login', true);
+
   $('err').textContent = msg || '';
 }
 
 $('join').onclick = async () => {
+
   $('err').textContent = '';
-  const code = $('code').value.trim(), name = $('name').value.trim();
-  if (!code || !name) { $('err').textContent = 'Completa el código y tu nombre.'; return; }
+
+  const code = $('code').value.trim();
+  const name = $('name').value.trim();
+
+  if (!code || !name) {
+    $('err').textContent = 'Completa el código y tu nombre.';
+    return;
+  }
+
   try {
-    const r = await fetch('/api/join', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code, name }) });
+
+    const r = await fetch('/api/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ code, name })
+    });
+
     const d = await r.json();
-    if (!r.ok) { $('err').textContent = d.error || 'No se pudo entrar.'; return; }
-    token = d.token; myName = d.name;
-    localStorage.setItem('sst_token', token); localStorage.setItem('sst_name', myName);
+
+    if (!r.ok) {
+      $('err').textContent = d.error || 'No se pudo entrar.';
+      return;
+    }
+
+    token = d.token;
+    myName = d.name;
+
+    localStorage.setItem('sst_token', token);
+    localStorage.setItem('sst_name', myName);
+
     start();
-  } catch { $('err').textContent = 'Sin conexión. Intenta de nuevo.'; }
+
+  } catch {
+    $('err').textContent = 'Sin conexión. Intenta de nuevo.';
+  }
 };
-$('name').addEventListener('keydown', e => { if (e.key === 'Enter') $('join').click(); });
+
+$('name').addEventListener('keydown', e => {
+  if (e.key === 'Enter') $('join').click();
+});
 
 function start() {
-  show('login', false); show('game', true);
+
+  show('login', false);
+  show('game', true);
+
   $('who').textContent = myName;
+
   fetchState();
+
   poll = setInterval(fetchState, 1000);
 }
 
 async function fetchState() {
+
   try {
-    const r = await fetch('/api/state?token=' + encodeURIComponent(token), { cache: 'no-store' });
-    if (r.status === 401) return logout('La competencia fue reiniciada. Vuelve a ingresar.');
+
+    const r = await fetch(
+      '/api/state?token=' + encodeURIComponent(token),
+      {
+        cache: 'no-store'
+      }
+    );
+
+    if (r.status === 401) {
+      return logout('La competencia fue reiniciada. Vuelve a ingresar.');
+    }
+
     render(await r.json());
-  } catch { /* reintenta en el siguiente ciclo */ }
+
+  } catch {
+    /* reintenta en el siguiente ciclo */
+  }
 }
 
 function render(s) {
-  epoch = s.epoch; qMs = s.questionMs;
+
+  epoch = s.epoch;
+  qMs = s.questionMs;
+
   show('lobby', s.phase === 'lobby');
   show('play', s.phase === 'question' || s.phase === 'reveal');
   show('done', s.phase === 'finished');
   show('meBox', !!s.me);
-  $('lobbyCount').textContent = s.playerCount;
-  $('prog').textContent = s.phase === 'lobby' ? 'En espera' : s.phase === 'finished' ? 'Final' : 'Pregunta ' + (s.q + 1) + ' de ' + s.total;
 
-  if (s.phase === 'question') deadline = performance.now() + s.remainingMs;
+  $('lobbyCount').textContent = s.playerCount;
+
+  $('prog').textContent =
+    s.phase === 'lobby'
+      ? 'En espera'
+      : s.phase === 'finished'
+        ? 'Final'
+        : 'Pregunta ' + (s.q + 1) + ' de ' + s.total;
+
+  if (s.phase === 'question') {
+    deadline = performance.now() + s.remainingMs;
+  }
 
   if (s.question) {
+
     const key = s.q + ':' + s.epoch;
+
     if (key !== shownKey) {
-      shownKey = key; chosen = null; answering = false;
+
+      shownKey = key;
+      chosen = null;
+      answering = false;
+
       $('topic').textContent = s.question.topic;
       $('qtext').textContent = s.question.text;
-      $('opts').innerHTML = s.question.options.map((o, i) =>
-        `<button class="opt" data-i="${i}"><b>${L[i]}</b><span>${esc(o)}</span></button>`).join('');
-      $('opts').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
+
+      $('opts').innerHTML =
+        s.question.options.map((o, i) =>
+          `<button class="opt" data-i="${i}">
+            <b>${L[i]}</b>
+            <span>${esc(o)}</span>
+          </button>`
+        ).join('');
+
+      $('opts')
+        .querySelectorAll('.opt')
+        .forEach(b =>
+          b.onclick = () => answer(+b.dataset.i)
+        );
+
       $('result').textContent = '';
     }
-    if (s.me && s.me.choice !== null && chosen === null) chosen = s.me.choice;
+
+    if (s.me && s.me.choice !== null && chosen === null) {
+      chosen = s.me.choice;
+    }
+
     const btns = $('opts').querySelectorAll('.opt');
+
     btns.forEach((b, i) => {
+
       b.classList.remove('sel', 'ok', 'bad', 'dim');
+
       if (s.phase === 'question') {
+
         b.disabled = chosen !== null;
-        if (chosen === i) b.classList.add('sel');
+
+        if (chosen === i) {
+          b.classList.add('sel');
+        }
+
       } else {
+
         b.disabled = true;
-        if (i === s.correct) b.classList.add('ok');
-        else if (i === chosen) b.classList.add('bad');
-        else b.classList.add('dim');
+
+        if (i === s.correct) {
+          b.classList.add('ok');
+        } else if (i === chosen) {
+          b.classList.add('bad');
+        } else {
+          b.classList.add('dim');
+        }
       }
     });
+
     if (s.phase === 'question') {
-      $('result').textContent = chosen !== null ? 'Respuesta enviada. Espera el resultado.' : '';
+
+      $('result').textContent =
+        chosen !== null
+          ? 'Respuesta enviada. Espera el resultado.'
+          : '';
+
     } else {
-      $('result').textContent = chosen === null ? 'No respondiste a tiempo.' : (chosen === s.correct ? '¡Correcto! +100 puntos' : 'Incorrecto');
+
+      $('result').textContent =
+        chosen === null
+          ? 'No respondiste a tiempo.'
+          : (
+              chosen === s.correct
+                ? '¡Correcto! +100 puntos'
+                : 'Incorrecto'
+            );
+
       $('secs').textContent = '0';
       $('timer').firstElementChild.style.width = '0%';
     }
   }
 
-  if (s.me) { $('mRank').textContent = s.me.rank || '-'; $('mScore').textContent = s.me.score; $('mTime').textContent = s.me.time.toFixed(1); }
-  if (s.phase === 'finished' && s.me) $('doneText').textContent = 'Quedaste en el puesto ' + s.me.rank + ' con ' + s.me.score + ' puntos.';
+  if (s.me) {
 
-  $('lb').innerHTML = s.leaderboard.map(p =>
-    `<tr class="${p.name === myName ? 'mine' : ''}"><td>${p.rank}</td><td>${esc(p.name)}</td><td class="n">${p.score}</td><td class="n">${p.time.toFixed(1)} s</td></tr>`).join('');
+    $('mRank').textContent = s.me.rank || '-';
+    $('mScore').textContent = s.me.score;
+    $('mTime').textContent = s.me.time.toFixed(1);
+  }
+
+  if (s.phase === 'finished' && s.me) {
+
+    $('doneText').textContent =
+      'Quedaste en el puesto ' +
+      s.me.rank +
+      ' con ' +
+      s.me.score +
+      ' puntos.';
+  }
+
+  $('lb').innerHTML =
+    s.leaderboard.map(p =>
+      `<tr class="${p.name === myName ? 'mine' : ''}">
+        <td>${p.rank}</td>
+        <td>${esc(p.name)}</td>
+        <td class="n">${p.score}</td>
+        <td class="n">${p.time.toFixed(1)} s</td>
+      </tr>`
+    ).join('');
 }
 
 async function answer(i) {
+
   if (chosen !== null || answering) return;
-  answering = true; chosen = i;
-  $('opts').querySelectorAll('.opt').forEach((b, k) => { b.disabled = true; b.classList.toggle('sel', k === i); });
+
+  answering = true;
+  chosen = i;
+
+  $('opts')
+    .querySelectorAll('.opt')
+    .forEach((b, k) => {
+      b.disabled = true;
+      b.classList.toggle('sel', k === i);
+    });
+
   try {
-    await fetch('/api/answer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, choice: i }) });
-  } catch { /* el siguiente sondeo confirma el estado */ }
-  $('result').textContent = 'Respuesta enviada. Espera el resultado.';
+
+    await fetch('/api/answer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token,
+        choice: i
+      })
+    });
+
+  } catch {
+    /* el siguiente sondeo confirma el estado */
+  }
+
+  $('result').textContent =
+    'Respuesta enviada. Espera el resultado.';
 }
 
 // Cuenta regresiva fluida usando el tiempo restante dado por el servidor
 setInterval(() => {
-  if ($('play').classList.contains('hidden') || $('result').textContent.startsWith('¡Correcto') || $('result').textContent === 'Incorrecto' || $('result').textContent.startsWith('No respondiste')) return;
-  const left = Math.max(0, deadline - performance.now());
-  $('secs').textContent = Math.ceil(left / 1000);
-  $('timer').firstElementChild.style.width = (left / qMs * 100) + '%';
-  $('timer').classList.toggle('low', left < 8000);
+
+  if (
+    $('play').classList.contains('hidden') ||
+    $('result').textContent.startsWith('¡Correcto') ||
+    $('result').textContent === 'Incorrecto' ||
+    $('result').textContent.startsWith('No respondiste')
+  ) return;
+
+  const left = Math.max(
+    0,
+    deadline - performance.now()
+  );
+
+  $('secs').textContent =
+    Math.ceil(left / 1000);
+
+  $('timer').firstElementChild.style.width =
+    (left / qMs * 100) + '%';
+
+  $('timer').classList.toggle(
+    'low',
+    left < 8000
+  );
+
 }, 100);
 
 if (token) start();
 </script>
+
 </body>
-  </html>
+</html>
   
