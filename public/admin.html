@@ -4,78 +4,336 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a2a5e">
+
 <title>Panel de la instructora - Concurso SST</title>
+
 <style>
-:root{--navy:#0a2a5e;--navy2:#123c82;--blue:#1f6feb;--yellow:#ffc400;--green:#1fa463;--red:#d93a3a;--ink:#0d1b36}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%}
-body{font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;background:linear-gradient(180deg,var(--navy),var(--navy2)) fixed;color:#fff;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-h1{margin:6px 0 14px;font-size:1.6rem}
-.card{background:#fff;color:var(--ink);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-input{width:100%;font-size:1.1rem;padding:13px;border-radius:12px;border:2px solid #c5d6f5;font-family:inherit}
-.btn{font-size:1rem;font-weight:700;padding:14px 16px;border:0;border-radius:12px;background:var(--blue);color:#fff;font-family:inherit;cursor:pointer}
-.btn.y{background:var(--yellow);color:var(--ink)}
-.btn.r{background:var(--red)}
-.btn:disabled{opacity:.4;cursor:default}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row .btn{flex:1;min-width:130px}
-.hidden{display:none!important}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.chip{background:var(--blue);color:#fff;padding:6px 12px;border-radius:999px;font-weight:700;font-size:.9rem}
-.big{font-size:2.4rem;font-weight:800;color:var(--blue)}
-.topic{color:#4a5f86}
-.q{font-size:1.2rem;font-weight:700;margin:4px 0 10px}
-.o{padding:8px 10px;border-radius:10px;background:#eef4ff;margin-bottom:6px}
-.o.c{background:#d9f5e6;font-weight:800}
-.err{color:var(--red);font-weight:700;min-height:1.2em;margin-top:8px}
-table{width:100%;border-collapse:collapse}
-th{font-size:.8rem;color:#4a5f86;text-align:left;padding:4px 8px}
-td{padding:8px;border-top:1px solid #e1e9f7}
-td.n,th.n{text-align:right}
-.scroll{max-height:420px;overflow-y:auto}
+:root{
+  --navy:#0a2a5e;
+  --navy2:#123c82;
+  --blue:#1f6feb;
+  --yellow:#ffc400;
+  --green:#1fa463;
+  --red:#d93a3a;
+  --ink:#0d1b36;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  background:linear-gradient(180deg,var(--navy),var(--navy2)) fixed;
+  color:#fff;
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+  padding:16px;
+}
+
+h1{
+  margin:6px 0 14px;
+  font-size:1.6rem;
+}
+
+.card{
+  background:#fff;
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
+input{
+  width:100%;
+  font-size:1.1rem;
+  padding:13px;
+  border-radius:12px;
+  border:2px solid #c5d6f5;
+  font-family:inherit;
+}
+
+.btn{
+  font-size:1rem;
+  font-weight:700;
+  padding:14px 16px;
+  border:0;
+  border-radius:12px;
+  background:var(--blue);
+  color:#fff;
+  font-family:inherit;
+  cursor:pointer;
+}
+
+.btn.y{
+  background:var(--yellow);
+  color:var(--ink);
+}
+
+.btn.g{
+  background:var(--green);
+}
+
+.btn.r{
+  background:var(--red);
+}
+
+.btn:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.row .btn{
+  flex:1;
+  min-width:130px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.stats{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.chip{
+  background:var(--blue);
+  color:#fff;
+  padding:6px 12px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:.9rem;
+}
+
+.big{
+  font-size:2.4rem;
+  font-weight:800;
+  color:var(--blue);
+}
+
+.topic{
+  color:#4a5f86;
+  font-weight:700;
+}
+
+.q{
+  font-size:1.2rem;
+  font-weight:700;
+  margin:4px 0 10px;
+}
+
+.o{
+  padding:10px;
+  border-radius:10px;
+  background:#eef4ff;
+  margin-bottom:6px;
+}
+
+.o.c{
+  background:#d9f5e6;
+  font-weight:800;
+  border:2px solid var(--green);
+}
+
+.answerBox{
+  margin-top:14px;
+  padding:14px;
+  border-radius:12px;
+  background:#fff8d6;
+  border:2px solid var(--yellow);
+  font-weight:800;
+}
+
+.warning{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:#fff3cd;
+  color:#664d03;
+  font-size:.9rem;
+  font-weight:700;
+}
+
+.err{
+  color:var(--red);
+  font-weight:700;
+  min-height:1.2em;
+  margin-top:8px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  font-size:.8rem;
+  color:#4a5f86;
+  text-align:left;
+  padding:4px 8px;
+}
+
+td{
+  padding:8px;
+  border-top:1px solid #e1e9f7;
+}
+
+td.n,th.n{
+  text-align:right;
+}
+
+.scroll{
+  max-height:420px;
+  overflow-y:auto;
+}
+
+.rank1{
+  font-weight:900;
+}
+
+.rank2{
+  font-weight:800;
+}
+
+.rank3{
+  font-weight:800;
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
+
   <h1>Panel de la instructora · Concurso SST</h1>
 
+  <!-- LOGIN -->
   <div class="card" id="login">
+
     <p>Contraseña de la instructora</p>
-    <input id="pass" type="password" placeholder="Contraseña" autocomplete="off">
+
+    <input
+      id="pass"
+      type="password"
+      placeholder="Contraseña"
+      autocomplete="off"
+    >
+
     <div class="row" style="margin-top:12px">
-      <button class="btn" id="enter">Entrar</button>
+      <button class="btn" id="enter">
+        Entrar
+      </button>
     </div>
+
     <div class="err" id="lerr"></div>
+
   </div>
 
+
+  <!-- PANEL -->
   <div id="panel" class="hidden">
+
+    <!-- CONTROLES -->
     <div class="card">
+
       <div class="stats">
+
         <span class="chip" id="phase"></span>
+
         <span class="chip" id="count"></span>
+
         <span class="chip" id="answered"></span>
+
       </div>
+
 
       <div class="row">
-        <button class="btn y" id="start">Iniciar competencia</button>
-        <button class="btn" id="next">Siguiente pregunta</button>
-        <button class="btn r" id="reset">Reiniciar</button>
+
+        <button
+          class="btn y"
+          id="start">
+          Iniciar competencia
+        </button>
+
+        <button
+          class="btn"
+          id="next">
+          Siguiente pregunta
+        </button>
+
+        <button
+          class="btn g"
+          id="showAnswer">
+          🔐 Ver respuesta
+        </button>
+
+        <button
+          class="btn r"
+          id="reset">
+          Reiniciar
+        </button>
+
       </div>
+
+
+      <div class="warning">
+        ⚠️ La respuesta correcta solo aparece aquí cuando presiones
+        "Ver respuesta". No aparece automáticamente.
+      </div>
+
     </div>
 
+
+    <!-- PREGUNTA -->
     <div class="card hidden" id="qcard">
+
       <div class="topic" id="topic"></div>
+
       <div class="big" id="secs"></div>
+
       <div class="q" id="qtext"></div>
+
       <div id="opts"></div>
+
+      <div id="answerBox" class="answerBox hidden"></div>
+
     </div>
 
+
+    <!-- RANKING -->
     <div class="card">
-      <h3 style="margin-top:0">Tabla de posiciones</h3>
+
+      <h3 style="margin-top:0">
+        🏆 Tabla de posiciones
+      </h3>
+
+      <p style="color:#4a5f86;font-size:.9rem">
+        Desempate: puntos → menor tiempo → orden de respuesta.
+      </p>
 
       <div class="scroll">
+
         <table>
+
           <thead>
             <tr>
               <th>Puesto</th>
@@ -86,192 +344,346 @@ td.n,th.n{text-align:right}
           </thead>
 
           <tbody id="lb"></tbody>
+
         </table>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
+
 <script>
+
 const $ = id => document.getElementById(id);
 
-const L = ['A', 'B', 'C', 'D'];
+const L = ['A','B','C','D'];
 
 const PH = {
-  lobby: 'En espera',
-  question: 'Pregunta en curso',
-  reveal: 'Mostrando respuesta',
-  finished: 'Terminada'
+  lobby:'En espera',
+  question:'Pregunta en curso',
+  reveal:'Tiempo terminado',
+  finished:'Terminada'
 };
 
-let pass = sessionStorage.getItem('sst_admin') || '';
+let pass =
+  sessionStorage.getItem('sst_admin') || '';
+
 let deadline = 0;
+
 let poll = null;
+
 let phase = '';
 
-const esc = s => String(s).replace(/[&<>\"']/g, c => ({
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '\"': '&quot;',
-  "'": '&#39;'
-}[c]));
+let currentAnswerVisible = false;
 
-async function call(path, method) {
-  const r = await fetch(path, {
-    method: method || 'GET',
-    headers: {
-      'x-admin-pass': pass
-    },
-    cache: 'no-store'
-  });
 
-  if (r.status === 401) throw new Error('auth');
+const esc = s =>
+  String(s).replace(
+    /[&<>"']/g,
+    c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[c])
+  );
+
+
+async function call(path, method, extraHeaders = {}) {
+
+  const r = await fetch(
+    path,
+    {
+      method:method || 'GET',
+
+      headers:{
+        'x-admin-pass':pass,
+        ...extraHeaders
+      },
+
+      cache:'no-store'
+    }
+  );
+
+  if(r.status === 401){
+
+    const data = await r.json().catch(()=>({}));
+
+    throw new Error(
+      data.error || 'auth'
+    );
+  }
 
   return r.json();
 }
 
-async function enter() {
-  pass = $('pass').value || pass;
 
-  try {
-    render(await call('/api/state?admin=1'));
+async function enter(){
 
-    sessionStorage.setItem('sst_admin', pass);
+  pass =
+    $('pass').value || pass;
 
-    $('login').classList.add('hidden');
-    $('panel').classList.remove('hidden');
+  try{
+
+    render(
+      await call(
+        '/api/state?admin=1'
+      )
+    );
+
+    sessionStorage.setItem(
+      'sst_admin',
+      pass
+    );
+
+    $('login')
+      .classList
+      .add('hidden');
+
+    $('panel')
+      .classList
+      .remove('hidden');
 
     clearInterval(poll);
-    poll = setInterval(refresh, 1000);
 
-  } catch {
-    $('lerr').textContent = 'Contraseña incorrecta.';
+    poll =
+      setInterval(
+        refresh,
+        1000
+      );
+
+  }catch(e){
+
+    $('lerr').textContent =
+      'Contraseña incorrecta.';
+
   }
 }
 
-async function refresh() {
-  try {
-    render(await call('/api/state?admin=1'));
-  } catch {}
+
+async function refresh(){
+
+  try{
+
+    render(
+      await call(
+        '/api/state?admin=1'
+      )
+    );
+
+  }catch(e){}
+
 }
 
-async function act(a) {
-  try {
-    render(await call('/api/admin/' + a, 'POST'));
-  } catch {}
+
+async function act(action){
+
+  try{
+
+    render(
+      await call(
+        '/api/admin/' + action,
+        'POST'
+      )
+    );
+
+  }catch(e){
+
+    alert(
+      e.message ||
+      'No se pudo realizar la acción.'
+    );
+
+  }
+
 }
 
-$('enter').onclick = enter;
 
-$('pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') enter();
-});
+async function showAnswer(){
 
-$('start').onclick = () => act('start');
-
-$('next').onclick = () => act('next');
-
-
-/* =====================================================
-   REINICIAR CON SEGUNDA CONTRASEÑA
-   Contraseña de reinicio: 1234
-   ===================================================== */
-
-$('reset').onclick = async () => {
-
-  if (!confirm(
-    '¿Reiniciar?\n\nSe borrarán todos los participantes y resultados.'
-  )) {
+  if(
+    !confirm(
+      '¿Mostrar la respuesta correcta en el panel de la instructora?'
+    )
+  ){
     return;
   }
 
-  const resetPass = prompt(
-    '🔐 Ingresa la contraseña para reiniciar:'
-  );
+  try{
 
-  if (resetPass === null) {
-    return;
+    render(
+      await call(
+        '/api/admin/show-answer',
+        'POST'
+      )
+    );
+
+  }catch(e){
+
+    alert(
+      e.message ||
+      'No se pudo mostrar la respuesta.'
+    );
+
   }
 
-  if (resetPass === '') {
-    alert('Debes ingresar la contraseña.');
-    return;
+}
+
+
+$('enter').onclick =
+  enter;
+
+
+$('pass').addEventListener(
+  'keydown',
+  e => {
+
+    if(e.key === 'Enter'){
+      enter();
+    }
+
   }
+);
 
-  try {
 
-    const r = await fetch('/api/admin/reset', {
-      method: 'POST',
+$('start').onclick =
+  () => act('start');
 
-      headers: {
-        'x-admin-pass': pass,
-        'x-reset-pass': resetPass
-      },
 
-      cache: 'no-store'
-    });
+$('next').onclick =
+  () => act('next');
 
-    const data = await r.json();
 
-    if (r.status === 401) {
-      alert(data.error || 'Contraseña de reinicio incorrecta.');
+$('showAnswer').onclick =
+  showAnswer;
+
+
+$('reset').onclick =
+  async () => {
+
+    const ok =
+      confirm(
+        '¿Reiniciar la competencia? Se borrarán participantes, puntos y resultados.'
+      );
+
+    if(!ok){
       return;
     }
 
-    render(data);
+    const resetPass =
+      prompt(
+        'Introduce la contraseña de reinicio:'
+      );
 
-    alert('✅ Concurso reiniciado correctamente.');
+    if(resetPass === null){
+      return;
+    }
 
-  } catch {
+    try{
 
-    alert('No se pudo reiniciar el concurso.');
+      render(
+        await call(
+          '/api/admin/reset',
+          'POST',
+          {
+            'x-reset-pass':
+              resetPass
+          }
+        )
+      );
 
-  }
-};
+      alert(
+        'Competencia reiniciada correctamente.'
+      );
+
+    }catch(e){
+
+      alert(
+        e.message ||
+        'Contraseña de reinicio incorrecta.'
+      );
+
+    }
+
+  };
 
 
-function render(s) {
+function render(s){
 
-  phase = s.phase;
+  phase =
+    s.phase;
 
   $('phase').textContent =
     PH[s.phase] +
-    (s.q >= 0 && s.phase !== 'finished'
-      ? ' · ' + (s.q + 1) + '/' + s.total
-      : '');
+    (
+      s.q >= 0 &&
+      s.phase !== 'finished'
+        ? ' · ' +
+          (s.q + 1) +
+          '/' +
+          s.total
+        : ''
+    );
+
 
   $('count').textContent =
-    s.playerCount + ' participantes';
+    s.playerCount +
+    ' participantes';
+
 
   $('answered').textContent =
     s.question
-      ? s.answeredCount + ' respondieron'
+      ? s.answeredCount +
+        ' respondieron'
       : '';
 
-  $('answered').classList.toggle(
-    'hidden',
-    !s.question
-  );
+
+  $('answered')
+    .classList
+    .toggle(
+      'hidden',
+      !s.question
+    );
+
 
   $('start').disabled =
     s.phase !== 'lobby';
 
+
   $('next').disabled =
-    !(s.phase === 'question' ||
-      s.phase === 'reveal');
+    !(
+      s.phase === 'question' ||
+      s.phase === 'reveal'
+    );
+
 
   $('next').textContent =
     s.q + 1 >= s.total
       ? 'Terminar'
       : 'Siguiente pregunta';
 
-  $('qcard').classList.toggle(
-    'hidden',
-    !s.question
-  );
 
-  if (s.question) {
+  $('showAnswer').disabled =
+    !(
+      s.phase === 'question' ||
+      s.phase === 'reveal'
+    );
+
+
+  $('qcard')
+    .classList
+    .toggle(
+      'hidden',
+      !s.question
+    );
+
+
+  if(s.question){
 
     deadline =
       performance.now() +
@@ -283,59 +695,174 @@ function render(s) {
     $('qtext').textContent =
       s.question.text;
 
+
     $('opts').innerHTML =
       s.question.options
-        .map((o, i) =>
-          `<div class="o ${i === s.correct ? 'c' : ''}">
-            <b>${L[i]})</b>
-            ${esc(o)}
-            ${i === s.correct ? ' ✔' : ''}
-          </div>`
+        .map(
+          (o,i) => {
+
+            const correct =
+              s.correct === i;
+
+            return `
+              <div class="o ${correct ? 'c' : ''}">
+                <b>${L[i]})</b>
+                ${esc(o)}
+                ${correct ? ' ✔' : ''}
+              </div>
+            `;
+
+          }
         )
         .join('');
 
-    if (s.phase !== 'question') {
-      $('secs').textContent = '0 s';
+
+    if(
+      typeof s.correct ===
+      'number'
+    ){
+
+      currentAnswerVisible =
+        true;
+
+      $('answerBox')
+        .classList
+        .remove('hidden');
+
+      $('answerBox').innerHTML =
+        '🔐 Respuesta correcta: ' +
+        '<strong>' +
+        L[s.correct] +
+        ') ' +
+        esc(
+          s.question.options[
+            s.correct
+          ]
+        ) +
+        '</strong>';
+
+    }else{
+
+      currentAnswerVisible =
+        false;
+
+      $('answerBox')
+        .classList
+        .add('hidden');
+
+      $('answerBox').textContent =
+        '';
+
     }
+
+
+    if(
+      s.phase !== 'question'
+    ){
+
+      $('secs').textContent =
+        '0 s';
+
+    }
+
+  }else{
+
+    $('answerBox')
+      .classList
+      .add('hidden');
+
   }
+
 
   $('lb').innerHTML =
     s.leaderboard.length
 
       ? s.leaderboard
-          .map(p =>
-            `<tr>
-              <td>${p.rank}</td>
-              <td>${esc(p.name)}</td>
-              <td class="n">${p.score}</td>
-              <td class="n">${p.time.toFixed(1)} s</td>
-            </tr>`
+          .map(
+            p => {
+
+              const cls =
+                p.rank === 1
+                  ? 'rank1'
+                  : p.rank === 2
+                    ? 'rank2'
+                    : p.rank === 3
+                      ? 'rank3'
+                      : '';
+
+              return `
+                <tr class="${cls}">
+                  <td>
+                    ${
+                      p.rank === 1
+                        ? '🥇'
+                        : p.rank === 2
+                          ? '🥈'
+                          : p.rank === 3
+                            ? '🥉'
+                            : p.rank
+                    }
+                  </td>
+
+                  <td>
+                    ${esc(p.name)}
+                  </td>
+
+                  <td class="n">
+                    ${p.score}
+                  </td>
+
+                  <td class="n">
+                    ${p.time.toFixed(1)} s
+                  </td>
+                </tr>
+              `;
+
+            }
           )
           .join('')
 
-      : '<tr><td colspan="4">Aún no hay participantes.</td></tr>';
+      : `
+          <tr>
+            <td colspan="4">
+              Aún no hay participantes.
+            </td>
+          </tr>
+        `;
 }
 
 
-setInterval(() => {
+setInterval(
+  () => {
 
-  if (phase === 'question') {
+    if(
+      phase === 'question'
+    ){
 
-    $('secs').textContent =
-      Math.ceil(
-        Math.max(
-          0,
-          deadline - performance.now()
-        ) / 1000
-      ) + ' s';
+      const seconds =
+        Math.ceil(
+          Math.max(
+            0,
+            deadline -
+            performance.now()
+          ) / 1000
+        );
 
-  }
+      $('secs').textContent =
+        seconds + ' s';
 
-}, 200);
+    }
+
+  },
+  200
+);
 
 
-if (pass) enter();
+if(pass){
+  enter();
+}
 
 </script>
+
 </body>
 </html>
